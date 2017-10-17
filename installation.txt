@@ -1,8 +1,24 @@
 Openshift
 
+https://docs.openshift.com/enterprise/3.0/install_config/install/advanced_install.html
+(
+    not entirely correct anymore, but still of help:
+    https://www.youtube.com/watch?v=wWSRpaosc-M
+    https://www.youtube.com/watch?v=-KoxaNPA56c
+)
 - Create virtual machines with centOS minimal
 	- 1x master
 	- 1x node
+- get root access to master
 - yum install epel-release docker ansible git nano
 - cp /etc/ansible/hosts /etc/ansible/hosts.bak
-- clone openshift/ansible https://github.com/openshift/openshift-ansible
+- use content of included hosts file, adjusted to your needs, for /etc/ansible/hosts
+- drop root access and add ssh keys to the user used in hosts-file (ssh-keygen)
+- copy ssh-public key to .ssh/authorized_keys on nodes
+- copy ssh-public key to .ssh/authorized_keys on master
+- git clone https://github.com/openshift/openshift-ansible
+- ansible-playbook -i /etc/ansible/hosts openshift-ansible/playbooks/byo/config.yml --private-key=.ssh/id_rsa -V --ask-sudo-pass
+- htpasswd /etc/origin/master/htpasswd admin (this will be your login to the dashboard
+- open openshift dashboard by going to the browser, address of master on port 8443
+
+playbooks/byo/openshift-master/config.yml

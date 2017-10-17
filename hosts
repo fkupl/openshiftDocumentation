@@ -1,0 +1,30 @@
+[OSEv3:children]
+masters
+nodes
+etcd
+
+[OSEv3:vars]
+ansible_ssh_user=admin
+ansible_become=true
+product_type=openshift
+deployment_type=origin
+
+openshift_master_identity_providers=[{'name': 'my_allow_provider', 'login': 'true', 'challenge': 'true', 'mappingMethod': 'claim', 'kind': 'AllowAllPasswordIdentityProvider'}]
+
+
+containerized=true
+openshift_release=v3.6
+openshift_image_tag=v3.6.0
+openshift_public_hostname=openshift-master
+openshift_master_default_subdomain=apps.openshift-master
+openshift_disable_check=disk_availability,docker_storage,memory_availability
+
+[masters]
+openshift-master
+
+[nodes]
+openshift-master openshift_node_labels="{'zone' : 'homemaster_west'}"
+openshift-node-1  openshift_node_labels="{'zone' : 'homemaster_east'}"
+
+[etcd]
+openshift-master
