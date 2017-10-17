@@ -1,0 +1,8 @@
+Openshift
+
+- Create virtual machines with centOS minimal
+	- 1x master
+	- 1x node
+- yum install epel-release docker ansible git nano
+- cp /etc/ansible/hosts /etc/ansible/hosts.bak
+- clone openshift/ansible https://github.com/openshift/openshift-ansible
