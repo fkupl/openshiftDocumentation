@@ -10,15 +10,28 @@ https://docs.openshift.com/enterprise/3.0/install_config/install/advanced_instal
 	- 1x master
 	- 1x node
 - get root access to master
-- yum install epel-release docker ansible git nano
+- yum install epel-release docker ansible git nano -y
 - cp /etc/ansible/hosts /etc/ansible/hosts.bak
 - use content of included hosts file, adjusted to your needs, for /etc/ansible/hosts
 - drop root access and add ssh keys to the user used in hosts-file (ssh-keygen)
-- copy ssh-public key to .ssh/authorized_keys on nodes
+- copy ssh-public key to .ssh/authorized_keys on nodes (ssh-copy-id)
 - copy ssh-public key to .ssh/authorized_keys on master
 - git clone https://github.com/openshift/openshift-ansible
-- ansible-playbook -i /etc/ansible/hosts openshift-ansible/playbooks/byo/config.yml --private-key=.ssh/id_rsa -V --ask-sudo-pass
-- htpasswd /etc/origin/master/htpasswd admin (this will be your login to the dashboard
+- ansible-playbook -i /etc/ansible/hosts openshift-ansible/playbooks/byo/config.yml --private-key=.ssh/id_rsa -v --ask-sudo-pass
 - open openshift dashboard by going to the browser, address of master on port 8443
 
+
+Troubles with non accesible repo's in build-pod:
+adding a proper DNS in /etc/resolv.conf, e.g.:
+
+nameserver 192.168.1.100
+nameserver 8.8.8.8
+
+In order to make this change persist when the host reboots or receives a new lease from DHCP, you can create (or append to) the /etc/dhcp/dhclient.conf file, e.g.:
+
+append domain-name-servers 8.8.8.8;
+
+
 playbooks/byo/openshift-master/config.yml
+
+
