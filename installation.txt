@@ -34,4 +34,12 @@ append domain-name-servers 8.8.8.8;
 
 playbooks/byo/openshift-master/config.yml
 
+In case you have docker images you want to build use this:
+oc new-app https://github.com/fkupl/applesandrobots.git --strategy=docker
+
+If, which is the case for quite a few pre-build images, the container needs root privileges, you'd have to change security settings of openshift. For this login to openshift:
+oc login https://10.9.4.49:8443 -u system:admin
+
+And then change permissions: 
+oc adm policy add-scc-to-user anyuid -z default
 
